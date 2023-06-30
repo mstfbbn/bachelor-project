@@ -29,7 +29,7 @@ public class EncryptionUtil {
     }
 
     public static byte[] aesEncryptECB(byte[] key, byte[] text) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
         SecretKey secretKey = new SecretKeySpec(key, 0, key.length, "AES");
         cipher.init(Cipher.ENCRYPT_MODE, secretKey);
         return cipher.doFinal(text);
@@ -40,14 +40,13 @@ public class EncryptionUtil {
      *
      * @return base64 encoded format of cypher text
      */
-    public static String aesEncryptCBC(byte[] key, byte[] iv, byte[] rawText) {
+    public static byte[] aesEncryptCBC(byte[] key, byte[] iv, byte[] rawText) {
         try {
             IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
             SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
             cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, ivParameterSpec);
-            byte[] encrypted = cipher.doFinal(rawText);
-            return Base64.getEncoder().encodeToString(encrypted);
+            return cipher.doFinal(rawText);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("error decrypting using AES");

@@ -15,4 +15,13 @@ public class ArrayUtil {
             return Arrays.copyOfRange(array, 0, newLength);
         }
     }
+
+    public static boolean byteArrayEqual(byte[] a, byte[] b) {
+        for (int i = 0; i < a.length; i++) {
+            if (a[i] != b[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
