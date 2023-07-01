@@ -240,9 +240,9 @@ public class Index {
 
             try {
                 byte[] bytes = Files.readAllBytes(file.toPath());
-                for (int i = 0; i < bytes.length / BLOCK_SIZE_IN_BYTES; i += BLOCK_SIZE_IN_BYTES) {
+                for (int i = 0; i < bytes.length; i += BLOCK_SIZE_IN_BYTES) {
                     byte[] temp = new byte[BLOCK_SIZE_IN_BYTES];
-                    System.arraycopy(bytes, i * BLOCK_SIZE_IN_BYTES, temp, 0, BLOCK_SIZE_IN_BYTES);
+                    System.arraycopy(bytes, i, temp, 0, BLOCK_SIZE_IN_BYTES);
                     byte[] xored = xorTwoByteArrays(x, temp, BLOCK_SIZE_IN_BYTES);
 
                     // divide in two
@@ -263,6 +263,7 @@ public class Index {
                     }
                     if (match) {
                         results.add(file.getAbsolutePath());
+                        break;
                     }
                 }
             } catch (Exception e) {
