@@ -1,14 +1,14 @@
-package me.biabani.encryption.searchable.common;
+package me.biabani.se.raw_implementation.common;
 
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
+import jakarta.xml.bind.DatatypeConverter;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
+import java.security.*;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 /**
@@ -49,7 +49,7 @@ public class EncryptionUtil {
             return cipher.doFinal(rawText);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("error decrypting using AES");
+            throw new RuntimeException("error encrypting using AES");
         }
     }
 
@@ -72,4 +72,38 @@ public class EncryptionUtil {
         return iv;
     }
 
+    public static KeyPair rsaKeyGenerator() {
+        try {
+            KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
+            kpg.initialize(2048);
+            return kpg.generateKeyPair();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static byte[] rsaEncrypt(byte[] publicKeyByteArray, byte[] rawText) throws InvalidKeyException {
+        try {
+            PublicKey publicKey = KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(publicKeyByteArray));
+            Cipher encryptCipher = Cipher.getInstance("RSA");
+            encryptCipher.init(Cipher.ENCRYPT_MODE, publicKey);
+            return encryptCipher.doFinal(rawText);
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeySpecException | IllegalBlockSizeException | BadPaddingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static byte[] rsaDecrypt(byte[] privateKeyByteArray, byte[] encrypted) throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        try {
+            PrivateKey privateKey = KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(privateKeyByteArray));
+            Cipher cipher = Cipher.getInstance("RSA");
+            cipher.init(Cipher.DECRYPT_MODE, privateKey);
+            return cipher.doFinal(encrypted);
+        } catch (InvalidKeySpecException | NoSuchAlgorithmException | NoSuchPaddingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

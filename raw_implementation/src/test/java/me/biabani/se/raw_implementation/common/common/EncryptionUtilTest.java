@@ -1,5 +1,6 @@
-package me.biabani.encryption.searchable.common;
+package me.biabani.se.raw_implementation.common.common;
 
+import me.biabani.se.raw_implementation.common.EncryptionUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

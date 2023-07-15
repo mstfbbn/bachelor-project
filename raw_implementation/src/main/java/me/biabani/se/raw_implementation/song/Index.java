@@ -1,7 +1,8 @@
-package me.biabani.encryption.searchable.song;
+package me.biabani.se.raw_implementation.song;
 
-import javafx.util.Pair;
-import me.biabani.encryption.searchable.common.EncryptionUtil;
+import me.biabani.se.raw_implementation.common.EncryptionUtil;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -39,7 +40,6 @@ public class Index {
      * @return list of words in file
      */
     private List<String> getWordsOfFile(File file) throws IOException {
-
         List<String> lines = Files.readAllLines(file.toPath());
         List<String[]> wordsPerLine = lines.stream().map(item -> item.split(" ")).collect(Collectors.toList());
         List<String> totalWords = new ArrayList<>();
@@ -185,7 +185,10 @@ public class Index {
 
     private List<Pair<byte[], byte[]>> divideEncryptedDataToLeftAndRight(List<byte[]> encryptedWords) {
         return encryptedWords.stream().map(encryptedWord ->
-                new Pair<>(Arrays.copyOfRange(encryptedWord, 0, BLOCK_SIZE_IN_BYTES / 2), Arrays.copyOfRange(encryptedWord, BLOCK_SIZE_IN_BYTES / 2, encryptedWord.length))
+                new ImmutablePair<>(
+                        Arrays.copyOfRange(encryptedWord, 0, BLOCK_SIZE_IN_BYTES / 2),
+                        Arrays.copyOfRange(encryptedWord, BLOCK_SIZE_IN_BYTES / 2, encryptedWord.length)
+                )
         ).collect(Collectors.toList());
     }
 

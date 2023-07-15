@@ -1,4 +1,4 @@
-package me.biabani.encryption.searchable.common;
+package me.biabani.se.raw_implementation.common;
 
 import java.util.Arrays;
 
@@ -16,8 +16,8 @@ public class ArrayUtil {
         }
     }
 
-    public static boolean byteArrayEqual(byte[] a, byte[] b) {
-        for (int i = 0; i < a.length; i++) {
+    public static boolean byteArrayEqual(byte[] a, byte[] b, int length) {
+        for (int i = 0; i < length; i++) {
             if (a[i] != b[i]) {
                 return false;
             }
