@@ -1,0 +1,7 @@
+package me.biabani.se.song.trellis;
+
+@FunctionalInterface
+public interface TriFunction<T, U, V, R> {
+
+    R apply(T t, U u, V v);
+}
