@@ -53,8 +53,6 @@ public class SongSearchInOneFileAction implements TriFunction<File, List<byte[]>
                     if (!matchInternal) {
                         match = false;
                         break;
-                    } else {
-                        System.out.printf("hello");
                     }
                 }
                 if (match) {

@@ -7,8 +7,6 @@ import org.bouncycastle.crypto.params.Argon2Parameters;
 /**
  * Argon2 is a key derivation function that was selected as the winner of the 2015 Password Hashing Competition.
  * It can be customized by different parameters according to resources and desired security level. <br>
- * <p>
- * NOTE: {@link #hashLength} is set to 32 byte because we want to get two 16 byte parameters 'key' and 'iv'.
  */
 public class Argon2HashGenerationTask implements TriFunction<byte[], byte[], Integer, byte[]> {
 
@@ -16,6 +14,10 @@ public class Argon2HashGenerationTask implements TriFunction<byte[], byte[], Int
     private static final int memLimit = 66536;
     private static final int parallelism = 1;
 
+    /**
+     * NOTE:
+     * @param hashLength is set to double of block size because we want to get two 16 byte parameters 'key' and 'iv'.
+     */
     @Override
     public byte[] apply(byte[] password, byte[] salt, Integer hashLength) {
 
